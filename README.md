@@ -11,11 +11,15 @@ and personalize their experience — all without a backend or page reload.
 
 GitHub Repository:
 ------------------
-[ADD YOUR GITHUB REPO LINK HERE]
+https://github.com/MSA-design/BookShelf
 
 Team Members:
 -------------
-[ADD TEAM MEMBER NAMES HERE]
+Mohamed Saeed Ahmed 
+Mohamed Ibrahim Ahmed
+Mohamed Ahmed
+Ahmed Mahmoud Amin
+Omar Ghareeb
 
 =====================================
   Features
