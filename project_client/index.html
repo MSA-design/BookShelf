@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookShelf — Library System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo"><span>📚</span> BookShelf</div>
+  <div class="header-right">
+    <span id="userGreet"></span>
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Theme</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <button class="nav-btn active" onclick="nav('home',this)"><span class="icon">🏠</span> Home</button>
+    <button class="nav-btn" onclick="nav('books',this)"><span class="icon">📖</span> Books</button>
+    <button class="nav-btn" onclick="nav('add',this)"><span class="icon">➕</span> Add Book</button>
+    <button class="nav-btn" onclick="nav('borrow',this)"><span class="icon">🔄</span> Borrow</button>
+    <button class="nav-btn" onclick="nav('history',this)"><span class="icon">📋</span> History</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HOME -->
+    <div class="section active" id="sec-home">
+      <div class="section-title">Good to see you, <em id="welcomeName">Reader</em></div>
+      <div class="live-bar">
+        <span class="pulse"></span>
+        <span id="liveCounter">Library ready</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">Total Books</div></div>
+        <div class="stat"><div class="stat-num" id="s-avail">0</div><div class="stat-lbl">Available</div></div>
+        <div class="stat"><div class="stat-num" id="s-out">0</div><div class="stat-lbl">Borrowed</div></div>
+        <div class="stat"><div class="stat-num" id="s-history">0</div><div class="stat-lbl">All Borrows</div></div>
+      </div>
+
+      <!-- Username preference form -->
+      <div class="form-card">
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:12px;color:var(--brown)">Your Preference (saved in cookie)</div>
+        <div style="display:flex;gap:10px;align-items:flex-end">
+          <div class="form-group" style="flex:1;margin:0">
+            <label>Your Name</label>
+            <input type="text" id="prefName" placeholder="Enter your name…">
+          </div>
+          <button class="btn btn-primary" onclick="saveName()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKS -->
+    <div class="section" id="sec-books">
+      <div class="section-title">Book Catalog</div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search by title or author…">
+      </div>
+      <div id="booksGrid" class="books-grid"></div>
+    </div>
+
+    <!-- ADD BOOK -->
+    <div class="section" id="sec-add">
+      <div class="section-title">Add New Book</div>
+      <div class="form-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" id="fTitle" placeholder="Book title">
+            <div class="err" id="errTitle">Title is required.</div>
+          </div>
+          <div class="form-group">
+            <label>Author *</label>
+            <input type="text" id="fAuthor" placeholder="Author name">
+            <div class="err" id="errAuthor">Author is required.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="fCategory">
+              <option value="">Select…</option>
+              <option>Fiction</option><option>Science</option><option>History</option>
+              <option>Technology</option><option>Biography</option><option>Philosophy</option>
+            </select>
+            <div class="err" id="errCat">Category is required.</div>
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <input type="number" id="fYear" placeholder="e.g. 2020" min="1000" max="2030">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Number of Copies</label>
+            <input type="number" id="fCopies" placeholder="e.g. 1" min="1" max="999" value="1">
+          </div>
+          <div class="form-group">
+            <label>Cover Image URL (optional — paste a real image link)</label>
+            <input type="url" id="fCover" placeholder="https://covers.openlibrary.org/b/id/…-L.jpg">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <button class="btn btn-primary" onclick="addBook()">Add Book</button>
+          <button class="btn btn-outline" onclick="clearForm()">Clear</button>
+        </div>
+        <div class="confirm-bar" id="addConfirm"></div>
+      </div>
+    </div>
+
+    <!-- BORROW -->
+    <div class="section" id="sec-borrow">
+      <div class="section-title">Borrow & Return</div>
+      <div class="form-card" style="margin-bottom:20px">
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:14px;color:var(--brown)">📤 Borrow a Book</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" id="bName" placeholder="Your full name">
+            <div class="err" id="errBName">Name is required.</div>
+          </div>
+          <div class="form-group">
+            <label>Select Book *</label>
+            <select id="bBook"><option value="">— Available books —</option></select>
+            <div class="err" id="errBBook">Please select a book.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Due Date *</label>
+          <input type="date" id="bDue">
+          <div class="err" id="errBDue">Select a future date.</div>
+        </div>
+        <button class="btn btn-primary" onclick="borrowBook()">📤 Borrow</button>
+        <div class="confirm-bar" id="borrowConfirm"></div>
+      </div>
+
+      <div class="form-card">
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:14px;color:var(--green)">📥 Return a Book</div>
+        <div class="form-group">
+          <label>Select Active Borrow</label>
+          <select id="rSelect"><option value="">— Active borrows —</option></select>
+        </div>
+        <button class="btn btn-primary" onclick="returnBook()">📥 Return</button>
+        <div class="confirm-bar" id="returnConfirm"></div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="section" id="sec-history">
+      <div class="section-title">Borrow History</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Book</th><th>Borrower</th><th>Due</th><th>Status</th></tr></thead>
+          <tbody id="histTbody"></tbody>
+        </table>
+        <div class="empty" id="histEmpty"><div class="big">📋</div>No history yet</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script src="./script.js"></script>
+</body>
+</html>
