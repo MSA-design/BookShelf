@@ -18,7 +18,6 @@ Team Members:
 Mohamed Saeed Ahmed 
 Mohamed Ibrahim Ahmed
 Mohamed Ahmed
-Ahmed Mahmoud Amin
 Omar Ghareeb
 
 =====================================
