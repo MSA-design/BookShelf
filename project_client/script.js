@@ -220,9 +220,7 @@ const renderBooks = (filter = '') => {
               ${b.status}
             </span>
             <div class="copies-ctrl">
-              <button class="copies-btn" onclick="changeCopies('${b.id}',-1)">−</button>
-              <span class="copies-num">${copies}</span>
-              <button class="copies-btn" onclick="changeCopies('${b.id}',1)">+</button>
+              <span class="copies-num">${copies}📦</span>
             </div>
           </div>
         </div>
@@ -245,14 +243,7 @@ const deleteBook = (id) => {
   toast(`🗑️ تم حذف "${book.title}"`);
 };
 
-const changeCopies = (id, delta) => {
-  const book = books.find(b => b.id === id);
-  if (!book) return;
-  book.copies = Math.max(1, (book.copies || 1) + delta);
-  save();
-  const card = document.getElementById('card-' + id);
-  if (card) card.querySelector('.copies-num').textContent = book.copies;
-};
+
 
 const renderHistory = () => {
   const tbody = document.getElementById('histTbody');
